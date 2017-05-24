@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-import TodoList from './comps/todo-list';
+import TodoList from './todo-list';
 
 //在组件 DidMounted 时通过 ajax 请求所有的数据与 state 绑定实现首次渲染;
 //将数据，相应的方法分发给个子组件
@@ -95,7 +95,7 @@ class Todo extends React.Component {
 		if (this.refs.content.value == '') {
 			this.refs.content.focus();
 			this.setState({
-				showTooltip: true;
+				showTooltip: true
 			});
 			return 
 		}
