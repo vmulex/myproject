@@ -1,6 +1,11 @@
 
 //定义数据库模型
 var mongoose = require('mongoose');
+
+//连接数据库
+var DB_URL = 'mongodb://localhost:27017/db';
+mongoose.connect(DB_URL);
+
 //数据集合十分简单，两个字段，内容和时间，并保存在 todo 表中
 var Schema = mongoose.Schema;
 
@@ -13,12 +18,12 @@ var Todo = new Schema({
         type: String, 
         required: true
     }
-}, { collection: 'todo' });
+});
 
 Todo = mongoose.model('Todolist', Todo);
 
 /**
- * 插入一些数据
+ * 插入一些数据进行模拟
  */
 function insert() {
  	var user1 = new Todo({
@@ -54,7 +59,7 @@ function insert() {
 		date: '9点',
  	});
 
- 	user2.save(function (err, res) {
+ 	user3.save(function (err, res) {
  		if (err) {
  			console.log('Error:' + err);
  		}
@@ -64,5 +69,5 @@ function insert() {
  	});
  }
 
-insert();
+// insert();
 module.exports = Todo;
