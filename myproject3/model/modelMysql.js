@@ -1,91 +1,153 @@
 /*
-**@mongoose连接数据库
+**@mysql数据库操作
+**@1.nodejs操作数据库进行增删改查一般主要通过的是SQL语句，不像mongoose一样调用不同的方法
+**@2.调用的方法均为connection.query(),通用的方式为query(sql, function(){})
+**@3.另一种是可以通过占位符？来自由控制sql语句
+**@4.最后一种方式是通过一个json，即将原来写sql语句的地方改为写一个json，query其他的option都写入，详见api文档
 */
 
-var mongoose = require('mongoose');
-var DB_URL = 'mongodb://localhost:27017/db525'
+var mysql = require('mysql');
+//数据库的名字
+// var DB_NAME = 'nodesample';
 
-mongoose.connect(DB_URL);
-
-var db = mongoose.connection;
-db.on('error', function(err) {
-	console.log('Mongoose connection open to ' + DB_URL);
-});
-db.once('open', function() {
-	console.log('connected');
-});
-
-//新建Schema，规定Schema的各种属性
-var UserSchema = mongoose.Schema({
-	username: {type: String},
-	userpwd: {type: String},
-	userage: {type: Number},
-	logindate: {type: Date}
+/*
+**@用连接池的时候
+**@1.pool可以直接调用query(),但是一般常用的是调用pool的getConnection((err, connection) => {...})方法
+**@2.一个connection用完后，需要调用connection.release(),这个连接就会回到pool中
+**@3.销毁这个连接调用connection.destroy(),这个连接就会销毁，函数调用时会重新建立一个新连接
+*/
+var pool  = mysql.createPool({
+    host     : 'localhost',
+    user     : 'root',
+    password : 'hujun',
+    database : 'nodesample'
 });
 
-UserSchema.methods.speak = function() {
-	var greeting = '我的名字是' + this.username;
-	console.log(greeting);
+function User(user) {
+	this.username = user.username;
+	this.userpwd = user.userpwd;
+	this.userage = user.userage;
+	this.logindate = user.logindate;	
 }
 
-var User = mongoose.model('User', UserSchema);
+//下面的增删改查都用到了userinfo表,还需要建一个userinfo表结构---table
+/*
+**@增添数据(向userinfo表中)
+*/
+User.prototype.insert = function insert() {
+	var user = {
+        username: this.username,
+        userpass: this.userpass,
+        userage: this.userage,
+        logindate: this.logindate
+    };
 
-//后面的函数需要一个全局变量User,我们在做增删改查的功能时,只是对其中的表即Schema进行操作,每一个表就包含姓名,密码等信息
+    pool.getConnection(function(err, connection) {
+    	// var useDbSql = "USE " + DB_NAME;
+    	var insertUser_Sql = "INSERT INTO userinfo(id,username,userpass) VALUES(0,?,?)";
+
+  //   	connection.query(useDbSql, function(err) {
+		// 	if (err) {
+	 //            console.log("USE Error: " + err.message);
+	 //            return;
+	 //         }
+	 //         console.log('USE succeed');
+		// });
+
+    	connection.query(insertUser_Sql, [user.username, user.userpass, user.userage, user.logindate], function(err, result) {
+    		if (err) {
+                console.log("insertUser_Sql Error: " + err.message);
+                return;
+            }
+
+            connection.release();
+            console.log(result);
+    	})
+    })
+}
 
 /*
-**mongoose中除了了那些save,remove,update等这些增删改查的方法外(这些方法都是要绑定在model上的)
-**mongoose中的Schema上还有methods属性，它上面可以绑定一些方法，这些方法最后都会自动的绑定在model的原型上，
-**所以后面新建的每个model都会除了一些属性外还可以调用这些方法
+**@根据用户名更改其数据
 */
+User.prototype.update = function update(username, userpass) {
+	pool.getConnection(function(err, connection) {
+	    var updateUserInfoByUserName_Sql = 'UPDATE userinfo SET userpass = ? WHERE username = ?';
+	    connection.query(updateUserInfoByUserName_Sql, [username, userpass], function (err, result) {
+	    	if (err) {
+                console.log("getUserByUserName Error: " + err.message);
+                return;
+            }
+
+            connection.release();
+            console.log(result);   
+	    })
+	})
+
+}
 
 /*
-**增添数据
+**@根据用户名得到用户信息
 */
-function insertNewItem(username, userpwd, userage) {
-	var user = new User({
-		username: username,
-		userpwd: userpwd,
-		userage: userage,
-		logindate: new Date()
+User.prototype.getUserByUserName = function getUserNumByName(username) {
+	pool.getConnection(function(err, connection) {
+		var getUserInfoByUserName_Sql = "SELECT * FROM userinfo WHERE username = ?";
+
+        connection.query(getUserByUserName_Sql, [username], function (err, result) {
+            if (err) {
+                console.log("getUserByUserName Error: " + err.message);
+                return;
+            }
+
+            connection.release();
+            console.log(result);                   
+        });        
 	});
-	
-	//save中的callback的第二个参数为这个model实例
-	user.save((err, res) => {
-		if (err) {
-			console.log(err);
-		}
-		else{
-			console.log(res + 'has inserted  ' + res.speak());
-		}
-	})
-}
+};
 
 /*
-**修改已有数据
-**可用在修改密码啊什么的
+**@删除该用户
 */
-function changePwd(username, userpwd) {
-	var chosenItem = {'username': username};
-	var updateOption = {'userpwd': userpwd};
+User.prototype.removeUser = function removeUser(username) {
+	pool.getConnection(function(err, connection) {
+		var removeUser_Sql = 'DELETE FROM userinfo WHERE username = ?';
 
-	user.update(chosenItem, updateOption, function(){
-		if (err) {
-			console.log(err);
-		}
-		else{
-			console.log(username + '\'s pwd has changed');
-		}
-	})
-}
+		connection.query(removeUser_Sql, [username], function(err, result) {
+			if (err) {
+                console.log("getUserByUserName Error: " + err.message);
+                return;
+            }
 
-/*
-**删除数据
-*/
-function deleteItem(username) {
-
-}
+            connection.release();
+            console.log(result);
+		});
+	});
+};
 
 
 /*
-**@mysql连接数据库
+**@一般连接过程
 */
+var connection = mysql.creatConnection({
+	host     : 'localhost',
+	user     : 'root',
+	password : 'hujun'
+})
+
+//首先就要建立连接，有两种方式：
+//建立连接的第一种方式
+//连接完了要connection.end()
+connection.connect(function() {
+	if (err) {
+		console.error('error connecting: ' + err.stack);
+	}
+
+	console.log('connected as id ' + connection.threadId);
+});
+
+//建立连接的第二种方式，直接通过query()方法来建立
+connection.query('SELECT 1', function (error, results, fields) {
+	if (error) throw error;
+})
+
+module.exports = User;
+

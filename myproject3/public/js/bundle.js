@@ -9570,15 +9570,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 // import styles from './app.css';//导入css样式文件
 
-// const App = () => (
-// 	//这里引用了css文件
-//   <div className={styles.app}>
-//     <h2>Hello, this is amazing webpack。</h2>
-//   </div>
-// );
-
-// export default App;
-
 var Todo = function (_React$Component) {
 	_inherits(Todo, _React$Component);
 
@@ -9589,6 +9580,26 @@ var Todo = function (_React$Component) {
 	}
 
 	_createClass(Todo, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			this._getTodoList();
+		}
+
+		//获取todolist
+
+	}, {
+		key: '_getTodoList',
+		value: function _getTodoList() {
+			var that = this;
+
+			fetch('/getAllItems').then(function (response) {
+				return response.json();
+			}).then(function (data) {
+				// Here's a list of repos!
+				console.log(data);
+			});
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			return _react2.default.createElement(

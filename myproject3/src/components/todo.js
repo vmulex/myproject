@@ -5,6 +5,22 @@ class Todo extends React.Component {
 	constructor(props) {
 		super(props);
 	}
+	
+	componentDidMount () {
+		this._getTodoList();
+	}
+
+	//获取todolist
+	_getTodoList () {
+		const that = this;
+
+		fetch('/getAllItems')
+		  .then(response => response.json())
+		  .then(data => {
+		    // Here's a list of repos!
+		    console.log(data)
+		  });
+	}
 
 	render() {
 		return (

@@ -1,5 +1,5 @@
 /*
-**@mongoose连接数据库
+**@mongoose数据库操作
 */
 
 var mongoose = require('mongoose');
@@ -68,24 +68,46 @@ function changePwd(username, userpwd) {
 	var chosenItem = {'username': username};
 	var updateOption = {'userpwd': userpwd};
 
-	user.update(chosenItem, updateOption, function(){
+	user.update(chosenItem, updateOption, function(err){
 		if (err) {
 			console.log(err);
 		}
 		else{
 			console.log(username + '\'s pwd has changed');
 		}
-	})
+	});
 }
 
 /*
 **删除数据
 */
 function deleteItem(username) {
+	var chosenItem = {'username': username};
 
+	user.remove(chosenItem, function (err) {
+	 	if (err) {
+			console.log(err);
+		}
+		else{
+			console.log(username + 'has been removed');
+		}
+	});
 }
 
-
 /*
-**@mysql连接数据库
+**查询数据
 */
+function findItem(username) {
+	var chosenItem = {'username': username};
+
+	user.find(chosenItem, function (err, docs) {
+		if (err) {
+			console.log(err);
+		}
+		else{
+			console.log(docs);
+		}
+	});
+}
+
+module.exports = User;
