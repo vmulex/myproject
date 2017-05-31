@@ -1,3 +1,7 @@
+/*
+**@mongoose连接数据库
+*/
+
 var mongoose = require('mongoose');
 var DB_URL = 'mongodb://localhost:27017/db525'
 
@@ -80,3 +84,8 @@ function changePwd(username, userpwd) {
 function deleteItem(username) {
 
 }
+
+
+/*
+**@mysql连接数据库
+*/
