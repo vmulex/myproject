@@ -11,16 +11,16 @@ class Todo extends React.Component {
 	}
 
 	//获取todolist
-	_getTodoList () {
-		const that = this;
+	// _getTodoList () {
+	// 	const that = this;
 
-		fetch('/getAllItems')
-		  .then(response => response.json())
-		  .then(data => {
-		    // Here's a list of repos!
-		    console.log(data)
-		  });
-	}
+	// 	fetch('/getAllItems')
+	// 	  .then(response => response.json())
+	// 	  .then(data => {
+	// 	    // Here's a list of repos!
+	// 	    console.log(data)
+	// 	  });
+	// }
 
 	render() {
 		return (
