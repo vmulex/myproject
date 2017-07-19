@@ -1,18 +1,25 @@
 import React from 'react';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
-import Option1 from './option1.js';
+import Option1 from './Option/option1.js';
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 
 
 class App extends React.Component {
-    state = {
-      collapsed: false,
-    };
+    constructor(props){
+      super(props);
+      this.state = {collapsed: false};
+    }
+    
     onCollapse = (collapsed) => {
       console.log(collapsed);
       this.setState({ collapsed });
     };
+
+    changeContent = () => {
+      console.log('changeContent');
+    }
+
     render() {
       return (
         <Layout>
@@ -23,13 +30,13 @@ class App extends React.Component {
           >
             <div className="logo" />
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-              <Menu.Item key="1">
+              <Menu.Item key="1" onClick={this.changeContent}>
                 <Icon type="pie-chart" />
-                <span>Option 1</span>
+                <span>Option</span>
               </Menu.Item>
               <Menu.Item key="2">
                 <Icon type="desktop" />
-                <span>Option 2</span>
+                <span>Major</span>
               </Menu.Item>
               <SubMenu
                 key="sub1"
@@ -54,7 +61,7 @@ class App extends React.Component {
           </Sider>
           <Layout>
             <Header style={{ background: '#ccc', padding: 0 }} />
-            <Content style={{ margin: '0 16px' }}>
+            <Content style={{ margin: '0 16px', minHeight: '600px'}}>
               <Option1 />
             </Content>
             <Footer style={{ textAlign: 'center' }}>
