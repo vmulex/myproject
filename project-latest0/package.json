@@ -9,6 +9,7 @@
     "css-loader": "^0.28.4",
     "html-webpack-plugin": "^2.29.0",
     "init": "^0.1.2",
+    "less": "^2.7.2",
     "less-loader": "^4.0.4",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
