@@ -1,7 +1,10 @@
 import React from 'react';
-import styles from './header.less'
+import styles from './header.css';
+import Logo from './Logo/logo.js';
+import Toolbar from './Toolbar/toolbar.js';
+import Search from './Search/search.js';
 
-class Header extends React.Component {
+class Header extends React.Component { 
 	constructor(props){
 		super(props);
 		this.state = null;
@@ -10,7 +13,11 @@ class Header extends React.Component {
 	render() {
 		return (
 			<div className='header'>
-				<h1>这是react demo</h1>
+				<div className='header-content'>
+					<Logo />
+					<Toolbar />
+					<Search />
+				</div>
 			</div>
 		)
 	}
