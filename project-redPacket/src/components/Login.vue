@@ -10,7 +10,7 @@
         <upload></upload>
       </li>
       <li class="table" style="width:600px">
-        <z-table :columns="columns" :tabledata="tabledata" type="edit"></z-table>
+        <z-table :columns="columns" :tabledata="tabledata" type="edit" stripe></z-table>
       </li>
     </ul>
   </div>

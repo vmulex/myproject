@@ -2,7 +2,7 @@
   <div class="table">
     <div class="add-icon"><span>++</span></div>
     <div class="header-wrapper">
-      <table>
+      <table :class="{'test': stripe}">
         <colgroup>
           <col width="50px"/>
           <col v-for="(element, index) of columns" :key="index" :width="element.width" />
@@ -40,6 +40,9 @@ export default {
     },
     tabledata: {
       type: Array
+    },
+    stripe: {
+      type: Boolean
     }
   }
 }
@@ -54,6 +57,9 @@ export default {
       span {
         float: right;
       }
+    }
+    .test {
+      background-color: red;
     }
   }
 </style>
