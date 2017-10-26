@@ -46,7 +46,7 @@ export default {
     clickoutside: {
       bind (el, binding, vnode) {
         function documentHandler (e) {
-          console.log(e.target)
+          // console.log(e.target)
           if (el.contains(e.target)) {
             return false
           }

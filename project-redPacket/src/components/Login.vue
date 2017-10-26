@@ -15,6 +15,12 @@
       <li class="dropdown">
         <drop-down :listData="dropDownListData" :defaultValue="dropDownDefaultValue" @on-select="selectValue"></drop-down>
       </li>
+      <li class="popup">
+        <button @click="showPop" style="width:100px;height:30px">点击出弹框</button>
+        <pop-up :visible="popupVisible" @on-close="closePop">
+          <label for="">做测试用</label>
+        </pop-up>
+      </li>
     </ul>
   </div>
 </template>
@@ -22,12 +28,14 @@
 import Upload from './Upload'
 import ZTable from './Table'
 import DropDown from './DropDown'
+import PopUp from './PopUp'
 export default {
   name: 'Index',
   components: {
     Upload,
     ZTable,
-    DropDown
+    DropDown,
+    PopUp
   },
   data: function () {
     return {
@@ -78,21 +86,12 @@ export default {
         }
       ],
       dropDownListData: [],
-      dropDownDefaultValue: '测试'
+      dropDownDefaultValue: '测试',
+      popupVisible: false
     }
   },
   created: function () {
     let _this = this
-    // this.axios({
-    //   method: 'get',
-    //   url: '/api/data'
-    // })
-    //   .then((res) => {
-    //     console.log(res.data)
-    //   })
-    //   .catch((err) => {
-    //     console.log(err)
-    //   })
     _this.axios({
       method: 'get',
       url: '/api/dropdown'
@@ -108,6 +107,12 @@ export default {
   methods: {
     selectValue (id) {
       console.log(id)
+    },
+    showPop () {
+      this.popupVisible = true
+    },
+    closePop (val) {
+      this.popupVisible = false
     }
   }
 }

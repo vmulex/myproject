@@ -25,6 +25,7 @@
     height: 3em;
     margin-bottom: 1em;
     border-bottom: 1px solid #ccc;
+    cursor: move;
     label {
       line-height: 3em;
       margin-left: 1em;
