@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import Vuex from 'vuex'
 import axios from 'axios'
+import gojs from 'gojs'
 import 'element-ui/lib/theme-default/index.css'
 import { Input, Dialog, Button } from 'element-ui'
 import './style/customize.less'
@@ -12,6 +13,7 @@ import 'font-awesome/css/font-awesome.css'
 import './mock.js'
 Vue.config.productionTip = false
 Vue.prototype.axios = axios
+Vue.prototype.go = gojs
 
 Vue.use(Input)
 Vue.use(Dialog)
