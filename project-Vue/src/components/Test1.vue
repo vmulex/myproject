@@ -7,12 +7,65 @@
   </div>
 </template>
 <script>
+import {toTree} from '.././utils/assist'
 export default {
   name: 'Index',
+  created () {
+    let a = toTree(this.array, 'codename')
+    console.log(a)
+  },
   components: {
   },
   data: function () {
     return {
+      array: [
+        {
+          codename: 'ppp1',
+          test1: 'test1',
+          test2: 'test2',
+          test3: 'test3'
+        }, {
+          codename: 'ppp3',
+          test1: 'test1',
+          test2: 'test2',
+          test3: 'test3'
+        }, {
+          codename: 'ppp1',
+          test1: 'test1',
+          test2: 'test2',
+          test3: 'test3'
+        }, {
+          codename: 'ppp2',
+          test1: 'test1',
+          test2: 'test2',
+          test3: 'test3'
+        }, {
+          codename: 'ppp2',
+          test1: 'test1',
+          test2: 'test2',
+          test3: 'test3'
+        }, {
+          codename: 'ppp3',
+          test1: 'test1',
+          test2: 'test2',
+          test3: 'test3'
+        }, {
+          codename: 'ppp2',
+          test1: 'test1',
+          test2: 'test2',
+          test3: 'test3'
+        }, {
+          codename: 'ppp3',
+          test1: 'test1',
+          test2: 'test2',
+          test3: 'test3'
+        }, {
+          codename: 'ppp3',
+          test1: 'test1',
+          test2: 'test2',
+          test3: 'test3'
+        }
+      ]
     }
   },
   methods: {

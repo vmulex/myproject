@@ -1,8 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '@/components/Login'
-import Go from '@/components/Go'
-import Test1 from '@/components/Test1'
+// import Login from '@/components/Login'
+// import Go from '@/components/Go'
+// import Test1 from '@/components/Test1'
+
+const Login = () => import('@/components/Login')
+const Go = () => import('@/components/Go')
+const Test1 = () => import('@/components/Test1')
 
 Vue.use(Router)
 
